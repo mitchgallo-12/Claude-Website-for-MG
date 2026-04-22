@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mitchell Gallo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0b0f1a;
+  --amber:#c4965a;
+  --olive:#6b7c3a;
+  --olive-light:#8a9a52;
+  --text:#1c1c2e;
+  --muted:#666;
+  --cream:#f9f7f4;
+  --white:#fff;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--cream);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.5rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;transition:background .4s}
+nav.scrolled{background:rgba(11,15,26,.96);backdrop-filter:blur(10px)}
+.nav-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:.2em;
+  color:var(--white);text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.75rem;
+  letter-spacing:.12em;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:var(--amber)}
+
+/* HERO */
+#hero{height:100vh;background:var(--navy);position:relative;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
+#stars,#constellation{position:absolute;top:0;left:0;width:100%;height:100%}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 2rem}
+.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5.5vw,4.5rem);
+  font-weight:300;letter-spacing:.35em;color:var(--white);margin-bottom:1.2rem}
+.hero-rule{width:50px;height:1px;background:var(--amber);margin:0 auto 1.5rem}
+.hero-tagline{font-family:'Cormorant Garamond',serif;font-size:clamp(.95rem,1.8vw,1.3rem);
+  font-weight:300;font-style:italic;color:rgba(255,255,255,.5);letter-spacing:.06em}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center}
+.scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,var(--amber),transparent);
+  animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.25}50%{opacity:.9}}
+
+/* SHARED */
+.section-wrap{padding:7rem 2rem}
+.section-inner{max-width:960px;margin:0 auto}
+.section-label{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:1.5rem}
+
+/* PATTERN */
+#pattern{background:var(--white)}
+.pull-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3.2vw,2.6rem);
+  font-weight:300;line-height:1.45;margin-bottom:2rem}
+.pull-quote em{color:var(--amber);font-style:italic}
+.pattern-body{font-size:.97rem;line-height:1.9;color:var(--muted);max-width:660px}
+
+/* ── ARC JOURNEY ── */
+#journey-wrapper{
+  position:relative;
+  height:500vh;
+  background:var(--cream);
+}
+
+#journey-sticky{
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.journey-header-bar{
+  padding:3.5rem 3rem 0;
+  flex-shrink:0;
+}
+.journey-header-bar .section-label{margin-bottom:.5rem}
+.journey-header-bar .arc-subtitle{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;
+  font-weight:300;
+  color:var(--text);
+  opacity:.65;
+}
+
+/* The visual area: SVG + card side by side */
+#arc-stage{
+  flex:1;
+  display:flex;
+  align-items:center;
+  gap:0;
+  min-height:0;
+  padding:0 3rem 2rem;
+}
+
+#arc-svg-wrap{
+  flex:1.1;
+  height:100%;
+  position:relative;
+  min-width:0;
+}
+
+#arc-svg{
+  width:100%;
+  height:100%;
+}
+
+/* Card panel lives to the right */
+#card-panel{
+  flex:0.9;
+  height:100%;
+  display:flex;
+  align-items:center;
+  position:relative;
+  padding-left:2rem;
+  min-width:0;
+}
+
+.career-card{
+  position:absolute;
+  top:50%;
+  left:2rem;
+  right:0;
+  transform:translateY(calc(-50% + 14px));
+  opacity:0;
+  transition:opacity .45s ease, transform .45s ease;
+  pointer-events:none;
+}
+.career-card.active{
+  opacity:1;
+  transform:translateY(-50%);
+  pointer-events:auto;
+}
+
+.cc-period{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:.5rem}
+.cc-role{font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,2.2vw,1.9rem);
+  font-weight:300;color:var(--text);margin-bottom:.75rem}
+.cc-insight{font-size:.88rem;line-height:1.85;color:var(--muted);margin-bottom:.85rem}
+.cc-pattern{display:inline-block;padding:.5rem .9rem;border-left:2px solid var(--olive);
+  font-size:.8rem;font-style:italic;color:var(--olive);background:rgba(107,124,58,.07)}
+
+/* Progress dots */
+#arc-dots{
+  display:flex;
+  gap:.55rem;
+  align-items:center;
+  margin-top:1.2rem;
+}
+.arc-dot{width:6px;height:6px;border-radius:50%;background:rgba(107,124,58,.25);
+  transition:background .4s,transform .3s;cursor:default}
+.arc-dot.active{background:var(--amber);transform:scale(1.45)}
+
+/* ORCHESTRA */
+#orchestra{background:var(--navy);text-align:center}
+.orch-inner{max-width:760px;margin:0 auto}
+.orch-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,2.8vw,2.2rem);
+  font-weight:300;font-style:italic;color:var(--white);line-height:1.65;margin-bottom:2.5rem}
+.orch-quote span{color:var(--amber)}
+.orch-body{font-size:.93rem;line-height:1.9;color:rgba(255,255,255,.42);
+  max-width:600px;margin:0 auto}
+
+/* ABOUT */
+#about{background:var(--white)}
+.about-grid{display:grid;grid-template-columns:1fr 1.7fr;gap:5rem;align-items:start}
+.about-title{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:300;
+  line-height:1.3;margin-bottom:2rem}
+.creds{display:flex;flex-direction:column;gap:.85rem}
+.cred{display:flex;align-items:center;gap:.7rem;font-size:.83rem;color:var(--muted)}
+.cred-dot{width:5px;height:5px;border-radius:50%;background:var(--amber);flex-shrink:0}
+.about-body p{font-size:.97rem;line-height:1.9;color:var(--muted);margin-bottom:1.2rem}
+
+/* THINKING */
+#thinking{background:var(--cream)}
+.thinking-title{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;margin-bottom:3rem}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.75rem}
+.card{background:var(--white);padding:2rem;border-top:2px solid var(--olive);
+  opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}
+.card.visible{opacity:1;transform:translateY(0)}
+.card-icon{font-size:1.6rem;margin-bottom:.9rem}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;margin-bottom:.65rem}
+.card-body{font-size:.83rem;line-height:1.78;color:var(--muted)}
+
+/* CONNECT */
+#connect{background:var(--navy);text-align:center}
+.connect-title{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;
+  color:var(--white);margin-bottom:1.25rem}
+.connect-body{font-size:.9rem;color:rgba(255,255,255,.42);max-width:460px;
+  margin:0 auto 2.5rem}
+.connect-btn{display:inline-block;padding:.9rem 2.5rem;border:1px solid var(--amber);
+  color:var(--amber);text-decoration:none;font-size:.78rem;letter-spacing:.15em;
+  text-transform:uppercase;transition:all .3s}
+.connect-btn:hover{background:var(--amber);color:var(--navy)}
+
+/* Pattern recognition canvas */
+#pattern-canvas{display:block;width:100%;height:210px;margin-top:2.5rem}
+
+/* Orchestration canvas */
+.orch-canvas-wrap{margin:1.5rem auto 3rem;max-width:500px}
+#orch-canvas{display:block;width:100%;height:290px}
+
+@media(max-width:768px){
+  nav{padding:1.25rem 1.5rem}.nav-links{display:none}
+  .about-grid{grid-template-columns:1fr;gap:2.5rem}
+  .cards{grid-template-columns:1fr}
+  #arc-stage{flex-direction:column;padding:0 1.5rem 1.5rem}
+  #arc-svg-wrap{flex:none;width:100%;height:45%}
+  #card-panel{flex:none;width:100%;height:auto;padding-left:0;padding-top:1rem}
+  .career-card{position:relative;top:auto;left:auto;right:auto;
+    transform:translateY(14px);padding:0}
+  .career-card.active{transform:translateY(0)}
+  .journey-header-bar{padding:2rem 1.5rem 0}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-name">M G</a>
+  <ul class="nav-links">
+    <li><a href="#journey-wrapper">Journey</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#thinking">Thinking</a></li>
+    <li><a href="#connect">Connect</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="stars"></canvas>
+  <canvas id="constellation"></canvas>
+  <div class="hero-content">
+    <h1 class="hero-name">MITCHELL &nbsp; GALLO</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-tagline">Pattern recognition across domains</p>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div></div>
+</section>
+
+<!-- PATTERN -->
+<div id="pattern" class="section-wrap">
+  <div class="section-inner">
+    <p class="section-label">The Through Line</p>
+    <h2 class="pull-quote">My career has not followed a single domain —<br>it has followed <em>a pattern.</em></h2>
+    <p class="pattern-body">Across the marine industry, aviation infrastructure, enterprise technology, and capital investment, I have consistently found that the underlying logic of complex problems is more transferable than most people expect. The skill that moves between industries isn't domain expertise. It's the ability to find the connective tissue — and build something executable around it.</p>
+    <canvas id="pattern-canvas" aria-label="Pattern recognition visualization across domains"></canvas>
+  </div>
+</div>
+
+<!-- ARC JOURNEY -->
+<div id="journey-wrapper">
+  <div id="journey-sticky">
+
+    <div class="journey-header-bar">
+      <p class="section-label">Career Arc</p>
+      <p class="arc-subtitle">The instruments that built the orchestra</p>
+    </div>
+
+    <div id="arc-stage">
+
+      <!-- LEFT: SVG arc -->
+      <div id="arc-svg-wrap">
+        <svg id="arc-svg" viewBox="0 0 520 340" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Ghost arc (always visible, faint) -->
+          <path id="arc-bg"
+            d="M 40,290 C 100,60 240,30 300,130 C 360,230 420,60 480,290"
+            fill="none"
+            stroke="rgba(107,124,58,0.18)"
+            stroke-width="1.5"
+            stroke-linecap="round"/>
+
+          <!-- Animated trail (draws in with scroll) -->
+          <path id="arc-trail"
+            d="M 40,290 C 100,60 240,30 300,130 C 360,230 420,60 480,290"
+            fill="none"
+            stroke="var(--amber)"
+            stroke-width="2"
+            stroke-linecap="round"
+            opacity=".7"/>
+
+          <!-- Stop nodes injected by JS -->
+          <g id="stop-nodes"></g>
+
+          <!-- Moving marker -->
+          <circle id="marker-glow" r="20" fill="rgba(196,150,90,0.2)" filter="url(#glow)" cx="40" cy="290"/>
+          <circle id="marker"      r="7"  fill="var(--amber)"                              cx="40" cy="290"/>
+          <circle id="marker-core" r="3"  fill="var(--cream)"                              cx="40" cy="290"/>
+        </svg>
+
+        <!-- Dots below the arc -->
+        <div id="arc-dots">
+          <div class="arc-dot active" id="dot-0"></div>
+          <div class="arc-dot" id="dot-1"></div>
+          <div class="arc-dot" id="dot-2"></div>
+          <div class="arc-dot" id="dot-3"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Career detail cards -->
+      <div id="card-panel">
+        <div class="career-card" id="card-0">
+          <p class="cc-period">2017</p>
+          <h3 class="cc-role">⚓ &nbsp; Marine &amp; Airport Operations</h3>
+          <p class="cc-insight">Ground-level operational fluency at Punta Gorda Airport — learning what a system looks like when every cue lands on time, and what a single missed cue costs downstream.</p>
+          <p class="cc-pattern">Systems fail at handoffs. The gap between components is where value is lost — or created.</p>
+        </div>
+
+        <div class="career-card" id="card-1">
+          <p class="cc-period">2018 – 2019</p>
+          <h3 class="cc-role">✈ &nbsp; Aviation &amp; Strategic Advisory</h3>
+          <p class="cc-insight">BS Aviation Business Management + MBA completed in 15 calendar months while serving concurrently as Strategic Advisor to the Office of the President at Jacksonville University — alongside a former Fortune 10 executive.</p>
+          <p class="cc-pattern">The most valuable person in any room translates between people who speak different languages about the same problem.</p>
+        </div>
+
+        <div class="career-card" id="card-2">
+          <p class="cc-period">2019 – 2023</p>
+          <h3 class="cc-role">⬡ &nbsp; Enterprise Technology — Availity</h3>
+          <p class="cc-insight">Data Analyst II → Product Owner II. Delivered $1.35M in annual cost savings; built a subscription product from zero to $12M annual revenue by identifying what an underserved segment actually needed — not what they asked for.</p>
+          <p class="cc-pattern">Customers describe symptoms. The analyst's job is diagnosis, not transcription.</p>
+        </div>
+
+        <div class="career-card" id="card-3">
+          <p class="cc-period">2023 – Present</p>
+          <h3 class="cc-role">◈ &nbsp; Infrastructure Investment — Khepera Capital</h3>
+          <p class="cc-insight">Chief of Staff &amp; Investment Operations at an early-stage firm with a multi-sector portfolio spanning aviation, maritime, and real estate. Designed due diligence frameworks and orchestrated cross-functional collaboration across legal, financial, and operational stakeholders.</p>
+          <p class="cc-pattern">Every deal, regardless of industry, is a question of whether two parties can agree on what something is worth — and what happens next.</p>
+        </div>
+      </div>
+
+    </div><!-- /arc-stage -->
+  </div><!-- /journey-sticky -->
+</div><!-- /journey-wrapper -->
+
+<!-- ORCHESTRA -->
+<div id="orchestra" class="section-wrap">
+  <div class="orch-inner">
+    <p class="section-label" style="color:var(--amber)">The Framework</p>
+    <div class="orch-canvas-wrap">
+      <canvas id="orch-canvas" aria-label="Orchestration conductor visualization"></canvas>
+    </div>
+    <blockquote class="orch-quote">
+      "Every component is part of a larger dance,<br>
+      and every dance is part of a larger scene.<br>
+      <span>The failure mode is rarely a broken part —<br>
+      it's a coordination failure."</span>
+    </blockquote>
+    <p class="orch-body">Supply chain, aviation infrastructure, healthcare technology — these feel like different worlds. But each is an orchestration problem at its core. I've spent my career learning to hear the full score: not just the instrument in front of me, but the ensemble it belongs to.</p>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="section-wrap">
+  <div class="section-inner">
+    <p class="section-label">About</p>
+    <div class="about-grid">
+      <div>
+        <h2 class="about-title">Operator.<br>Analyst.<br>Pilot.</h2>
+        <div class="creds">
+          <div class="cred"><div class="cred-dot"></div><span>FAA Instrument-Rated Pilot</span></div>
+          <div class="cred"><div class="cred-dot"></div><span>MBA — Jacksonville University</span></div>
+          <div class="cred"><div class="cred-dot"></div><span>BS Aviation Business Management</span></div>
+          <div class="cred"><div class="cred-dot"></div><span>Saint Augustine, Florida</span></div>
+          <div class="cred"><div class="cred-dot"></div><span>World Affairs Council Member</span></div>
+          <div class="cred"><div class="cred-dot"></div><span>Leadership Jacksonville — Next Generation</span></div>
+        </div>
+      </div>
+      <div class="about-body">
+        <p>I am an operator and analyst whose career has been defined less by industry than by instinct — the ability to enter an unfamiliar domain, find the underlying logic, and build something executable around it.</p>
+        <p>My background spans the marine industry, aviation infrastructure, enterprise healthcare technology, and capital investment. What connects these isn't a straight line — it's a thread. Each environment taught me something about how complex systems fail and how the right kind of attention can prevent it.</p>
+        <p>I hold an FAA Instrument Rating, which I think of less as a credential and more as evidence of a particular way of engaging with complexity: learn the rules, trust the instruments, and make decisions under pressure with incomplete information.</p>
+        <p>I'm based in Saint Augustine, Florida, actively exploring where pattern recognition and operational fluency can create the most leverage — in aviation, in supply chain, or wherever the next interesting problem turns out to be.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- THINKING -->
+<div id="thinking" class="section-wrap">
+  <div class="section-inner">
+    <p class="section-label">Currently Thinking About</p>
+    <h2 class="thinking-title">Areas of active curiosity</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">✈</div>
+        <h3 class="card-title">Aviation Infrastructure &amp; Brokerage</h3>
+        <p class="card-body">The FBO market is consolidating. Aircraft values are shifting. The operators navigating this moment need partners who understand both the business case and the runway — literally. Building knowledge and relationships in this space.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⟳</div>
+        <h3 class="card-title">Supply Chain Visibility</h3>
+        <p class="card-body">Major enterprises still lack clear sight into their transportation spend and why. The problem isn't a data shortage — it's a coordination failure. The solution looks less like a dashboard and more like a conductor's score.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">◎</div>
+        <h3 class="card-title">Pattern Recognition as Strategy</h3>
+        <p class="card-body">What if domain expertise is overrated, and the real differentiator is the speed at which you can find the underlying logic of any new environment — and translate it into something useful?</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONNECT -->
+<div id="connect" class="section-wrap">
+  <p class="section-label" style="color:var(--amber);text-align:center">Get In Touch</p>
+  <h2 class="connect-title">Let's find the pattern together</h2>
+  <p class="connect-body">Whether it's aviation, investment, operations, or something I haven't touched yet — I'm always interested in a good problem and the people trying to solve it.</p>
+  <a href="mailto:mitchgallo12@gmail.com" class="connect-btn">mitchgallo12@gmail.com</a>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   STAR FIELD
+══════════════════════════════════════════ */
+const sCanvas = document.getElementById('stars');
+const sCtx    = sCanvas.getContext('2d');
+let stars = [];
+
+function initStars() {
+  sCanvas.width  = window.innerWidth;
+  sCanvas.height = window.innerHeight;
+  stars = Array.from({length:130}, () => ({
+    x: Math.random() * sCanvas.width,
+    y: Math.random() * sCanvas.height,
+    r: Math.random() * 1.1 + .2,
+    a: Math.random(),
+    spd: .003 + Math.random() * .007
+  }));
+}
+
+function drawStars(t) {
+  sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+  stars.forEach(s => {
+    const alpha = s.a * (.35 + .25 * Math.sin(t * s.spd));
+    sCtx.beginPath();
+    sCtx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+    sCtx.fillStyle = `rgba(255,255,255,${alpha})`;
+    sCtx.fill();
+  });
+}
+
+/* ══════════════════════════════════════════
+   CONSTELLATION
+══════════════════════════════════════════ */
+const cCanvas = document.getElementById('constellation');
+const cCtx    = cCanvas.getContext('2d');
+
+const domains = [
+  {label:'AVIATION',   angle:-90, color:'#c4965a'},
+  {label:'INVESTMENT', angle:-18, color:'#8a6a3a'},
+  {label:'OPERATIONS', angle:54,  color:'#6b7c3a'},
+  {label:'MARINE',     angle:126, color:'#2a5a5a'},
+  {label:'TECHNOLOGY', angle:198, color:'#4a6b3a'},
+];
+
+let cProg = 0, T = 0;
+
+function resize() {
+  cCanvas.width = sCanvas.width = window.innerWidth;
+  cCanvas.height = sCanvas.height = window.innerHeight;
+  initStars();
+}
+resize();
+window.addEventListener('resize', resize);
+
+function nPos(d) {
+  const rad = d.angle * Math.PI / 180;
+  const r = Math.min(cCanvas.width, cCanvas.height) * .26;
+  return { x: cCanvas.width/2 + Math.cos(rad)*r, y: cCanvas.height/2 + Math.sin(rad)*r };
+}
+
+function drawConstellation() {
+  cCtx.clearRect(0,0,cCanvas.width,cCanvas.height);
+  const pos = domains.map(d => nPos(d));
+  const pairs = [];
+  for(let i=0;i<domains.length;i++)
+    for(let j=i+1;j<domains.length;j++) pairs.push([i,j]);
+
+  pairs.forEach(([i,j],idx) => {
+    const lp = Math.max(0, Math.min(1, (cProg - idx/pairs.length*.55)*2.5));
+    if(lp<=0) return;
+    const p1=pos[i], p2=pos[j];
+    cCtx.beginPath();
+    cCtx.moveTo(p1.x, p1.y);
+    cCtx.lineTo(p1.x+(p2.x-p1.x)*lp, p1.y+(p2.y-p1.y)*lp);
+    cCtx.strokeStyle = `rgba(107,124,58,${.12+.04*Math.sin(T*.02+i+j)})`;
+    cCtx.lineWidth = .6;
+    cCtx.stroke();
+  });
+
+  domains.forEach((d,i) => {
+    const np = Math.max(0, Math.min(1,(cProg-.45)*3));
+    if(np<=0) return;
+    const p = pos[i];
+    const pulse = .75 + .25*Math.sin(T*.025+i*1.3);
+    const r = 7*pulse*np;
+    const g = cCtx.createRadialGradient(p.x,p.y,0,p.x,p.y,r*4);
+    g.addColorStop(0, d.color+'55');
+    g.addColorStop(1, d.color+'00');
+    cCtx.beginPath(); cCtx.arc(p.x,p.y,r*4,0,Math.PI*2);
+    cCtx.fillStyle=g; cCtx.fill();
+    cCtx.beginPath(); cCtx.arc(p.x,p.y,r*.55,0,Math.PI*2);
+    cCtx.fillStyle=d.color; cCtx.fill();
+    const rad = d.angle*Math.PI/180;
+    const off = Math.min(cCanvas.width,cCanvas.height)*.075;
+    cCtx.font=`300 ${Math.round(10*np)}px Inter,sans-serif`;
+    cCtx.fillStyle=`rgba(255,255,255,${.4*np})`;
+    cCtx.textAlign='center'; cCtx.textBaseline='middle';
+    cCtx.fillText(d.label, p.x+Math.cos(rad)*off, p.y+Math.sin(rad)*off);
+  });
+}
+
+function loop() {
+  drawStars(T);
+  drawConstellation();
+  if(cProg<1) cProg+=.003;
+  T++;
+  requestAnimationFrame(loop);
+}
+loop();
+
+/* ══════════════════════════════════════════
+   SCROLL-DRIVEN ARC
+══════════════════════════════════════════ */
+
+// Key elements
+const wrapper   = document.getElementById('journey-wrapper');
+const arcBg     = document.getElementById('arc-bg');      // ALWAYS in DOM → safe for getTotalLength
+const trailPath = document.getElementById('arc-trail');
+const marker    = document.getElementById('marker');
+const markerGlo = document.getElementById('marker-glow');
+const markerCore= document.getElementById('marker-core');
+const stopNodes = document.getElementById('stop-nodes');
+const arcSvg    = document.getElementById('arc-svg');
+
+// Stop definitions
+const STOP_T      = [0.08, 0.36, 0.64, 0.92];
+const STOP_LABELS = ['Marine','Aviation','Technology','Investment'];
+const STOP_ICONS  = ['⚓','✈','⬡','◈'];
+const STOP_COLORS = ['#2a5a5a','#c4965a','#6b7c3a','#8a6a3a'];
+
+let totalLen  = 0;
+let currentStop = -1;
+
+function initArc() {
+  // arcBg is always in the SVG DOM — getTotalLength() will work
+  totalLen = arcBg.getTotalLength();
+  if (totalLen === 0) {
+    // fallback: try again shortly
+    setTimeout(initArc, 100);
+    return;
+  }
+
+  // Wire up trail animation
+  trailPath.style.strokeDasharray  = totalLen;
+  trailPath.style.strokeDashoffset = totalLen;  // start hidden
+
+  // Place stop nodes
+  stopNodes.innerHTML = '';
+  STOP_T.forEach((t, i) => {
+    const pt = arcBg.getPointAtLength(t * totalLen);
+
+    // Outer ring
+    const ring = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    ring.setAttribute('cx', pt.x);
+    ring.setAttribute('cy', pt.y);
+    ring.setAttribute('r', 11);
+    ring.setAttribute('fill', 'none');
+    ring.setAttribute('stroke', STOP_COLORS[i]);
+    ring.setAttribute('stroke-width', '1.2');
+    ring.setAttribute('opacity', '0.3');
+    ring.id = `ring-${i}`;
+
+    // Inner dot
+    const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot.setAttribute('cx', pt.x);
+    dot.setAttribute('cy', pt.y);
+    dot.setAttribute('r', 4.5);
+    dot.setAttribute('fill', STOP_COLORS[i]);
+    dot.setAttribute('opacity', '0.45');
+    dot.id = `ndot-${i}`;
+
+    // Label — nudge above nodes that are near the top
+    const labelY = (pt.y < 80) ? pt.y + 28 : pt.y - 20;
+    const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x', pt.x);
+    txt.setAttribute('y', labelY);
+    txt.setAttribute('text-anchor', 'middle');
+    txt.setAttribute('font-size', '9');
+    txt.setAttribute('font-family', 'Inter,sans-serif');
+    txt.setAttribute('fill', 'rgba(107,124,58,0.55)');
+    txt.setAttribute('letter-spacing', '0.12em');
+    txt.textContent = STOP_ICONS[i] + '  ' + STOP_LABELS[i].toUpperCase();
+    txt.id = `nlbl-${i}`;
+
+    stopNodes.appendChild(ring);
+    stopNodes.appendChild(dot);
+    stopNodes.appendChild(txt);
+  });
+
+  // Show first card immediately
+  activateStop(0);
+  // Seed marker at start
+  const startPt = arcBg.getPointAtLength(0);
+  [marker, markerGlo, markerCore].forEach(el => {
+    el.setAttribute('cx', startPt.x);
+    el.setAttribute('cy', startPt.y);
+  });
+}
+
+function activateStop(idx) {
+  if (idx === currentStop) return;
+  currentStop = idx;
+
+  // Cards
+  document.querySelectorAll('.career-card').forEach((c, i) => {
+    c.classList.toggle('active', i === idx);
+  });
+
+  // Dots
+  document.querySelectorAll('.arc-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === idx);
+  });
+
+  // Node highlights
+  STOP_T.forEach((_, i) => {
+    const ring = document.getElementById(`ring-${i}`);
+    const ndot = document.getElementById(`ndot-${i}`);
+    const nlbl = document.getElementById(`nlbl-${i}`);
+    if (ring) ring.setAttribute('opacity', i === idx ? '1'   : '0.3');
+    if (ndot) ndot.setAttribute('opacity', i === idx ? '1'   : '0.45');
+    if (nlbl) nlbl.setAttribute('fill',    i === idx
+      ? 'rgba(196,150,90,0.95)'
+      : 'rgba(107,124,58,0.55)');
+  });
+}
+
+function updateArc() {
+  if (totalLen === 0) return;
+
+  // Calculate 0..1 scroll progress through the sticky wrapper
+  const rect     = wrapper.getBoundingClientRect();
+  const scrollable = wrapper.offsetHeight - window.innerHeight;
+  const prog     = Math.max(0, Math.min(1, -rect.top / scrollable));
+
+  // Animate trail
+  trailPath.style.strokeDashoffset = totalLen * (1 - prog);
+
+  // Move marker along the arc
+  const pt = arcBg.getPointAtLength(prog * totalLen);
+  marker.setAttribute('cx',     pt.x);
+  marker.setAttribute('cy',     pt.y);
+  markerGlo.setAttribute('cx',  pt.x);
+  markerGlo.setAttribute('cy',  pt.y);
+  markerCore.setAttribute('cx', pt.x);
+  markerCore.setAttribute('cy', pt.y);
+
+  // Which stop is active? (the highest stop whose threshold we've passed)
+  let active = 0;
+  for (let i = 0; i < STOP_T.length; i++) {
+    if (prog >= STOP_T[i] - 0.10) active = i;
+  }
+  activateStop(active);
+}
+
+// Initialise after a paint so SVG dimensions are resolved
+requestAnimationFrame(() => {
+  setTimeout(initArc, 60);
+});
+window.addEventListener('resize', () => setTimeout(initArc, 80));
+window.addEventListener('scroll', updateArc, { passive: true });
+
+/* ══════════════════════════════════════════
+   NAV + SCROLL REVEAL
+══════════════════════════════════════════ */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+const reveal = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 90);
+  });
+}, { threshold: .1 });
+
+document.querySelectorAll('.card').forEach(el => reveal.observe(el));
+
+/* ══════════════════════════════════════════
+   PATTERN RECOGNITION CANVAS
+   Four domains, same underlying structure.
+   Cycling highlight reveals shared pattern.
+══════════════════════════════════════════ */
+(function(){
+  const canvas = document.getElementById('pattern-canvas');
+  if (!canvas) return;
+
+  const DOMAINS = [
+    { name:'MARINE',     icon:'⚓', color:'#2a7a7a', stages:['PORT INTAKE','HARBOR CTRL','DOCK OPS','DELIVERY']   },
+    { name:'AVIATION',   icon:'✈', color:'#c4965a', stages:['FLIGHT PLAN','ATC TOWER','GATE OPS','DEPARTURE']    },
+    { name:'TECHNOLOGY', icon:'⬡', color:'#4a8a4a', stages:['REQUIREMENTS','PRODUCT','ENGINEERING','RELEASE']    },
+    { name:'INVESTMENT', icon:'◈', color:'#8a7040', stages:['DEAL FLOW','DUE DILIGENCE','DEPLOY','RETURN']       },
+  ];
+  const COL_LABELS = ['ENTRY','COORDINATE','EXECUTE','OUTPUT'];
+
+  let patCtx, patDpr;
+  let patT = 0, activeCol = 0, colFrames = 0;
+  const COL_HOLD = 110; // frames per column
+
+  function setupPat() {
+    patDpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width === 0) return;
+    canvas.width  = rect.width  * patDpr;
+    canvas.height = rect.height * patDpr;
+    patCtx = canvas.getContext('2d');
+    patCtx.scale(patDpr, patDpr);
+  }
+  setupPat();
+  window.addEventListener('resize', setupPat);
+
+  function drawPattern() {
+    const W = canvas.clientWidth;
+    const H = canvas.clientHeight;
+    if (!patCtx || W === 0) { requestAnimationFrame(drawPattern); return; }
+
+    patCtx.clearRect(0, 0, W, H);
+
+    const narrow   = W < 420;
+    const mL       = narrow ? 58 : Math.max(72, W * 0.1);
+    const mR       = 10;
+    const colW     = (W - mL - mR) / 4;
+    const headerH  = 24;
+    const rowH     = (H - headerH) / DOMAINS.length;
+    const nSz      = Math.max(7, Math.min(9,   W / 85));
+    const hSz      = Math.max(7, Math.min(9.5, W / 75));
+
+    // Column bands + headers
+    for (let c = 0; c < 4; c++) {
+      const x  = mL + c * colW;
+      const on = c === activeCol;
+
+      patCtx.fillStyle = on ? 'rgba(107,124,58,0.09)' : 'rgba(107,124,58,0.02)';
+      patCtx.fillRect(x, headerH, colW, H - headerH);
+
+      if (c > 0) {
+        patCtx.beginPath();
+        patCtx.moveTo(x, headerH); patCtx.lineTo(x, H);
+        patCtx.strokeStyle = 'rgba(107,124,58,0.1)';
+        patCtx.lineWidth = 1;
+        patCtx.stroke();
+      }
+
+      patCtx.font = `500 ${hSz}px Inter,sans-serif`;
+      patCtx.fillStyle  = on ? '#6b7c3a' : 'rgba(107,124,58,0.32)';
+      patCtx.textAlign  = 'center';
+      patCtx.textBaseline = 'middle';
+      patCtx.fillText(COL_LABELS[c], x + colW / 2, headerH / 2);
+    }
+
+    // Domain rows
+    DOMAINS.forEach((domain, di) => {
+      const cy  = headerH + rowH * di + rowH / 2;
+      const col = domain.color;
+      const abbr = narrow ? domain.icon : domain.icon + ' ' + domain.name;
+
+      // Domain label
+      patCtx.font = `400 ${nSz}px Inter,sans-serif`;
+      patCtx.fillStyle    = col;
+      patCtx.textAlign    = 'right';
+      patCtx.textBaseline = 'middle';
+      patCtx.fillText(abbr, mL - 8, cy);
+
+      // Flow line
+      patCtx.beginPath();
+      patCtx.moveTo(mL + colW * 0.5, cy);
+      patCtx.lineTo(mL + colW * 3.5, cy);
+      patCtx.strokeStyle = col + '22';
+      patCtx.lineWidth   = 1;
+      patCtx.setLineDash([3, 6]);
+      patCtx.stroke();
+      patCtx.setLineDash([]);
+
+      // Mini arrows
+      for (let s = 0; s < 3; s++) {
+        const ax = mL + colW * (s + 1) - 7;
+        patCtx.beginPath();
+        patCtx.moveTo(ax - 5, cy - 3);
+        patCtx.lineTo(ax, cy);
+        patCtx.lineTo(ax - 5, cy + 3);
+        patCtx.strokeStyle = col + '33';
+        patCtx.lineWidth   = 0.8;
+        patCtx.stroke();
+      }
+
+      // Nodes
+      for (let s = 0; s < 4; s++) {
+        const nx = mL + colW * s + colW / 2;
+        const on = s === activeCol;
+        const pulse = on ? 0.6 + 0.4 * Math.sin(patT * 0.08) : 0;
+
+        if (on) {
+          const g = patCtx.createRadialGradient(nx, cy, 0, nx, cy, 22);
+          g.addColorStop(0, col + '40');
+          g.addColorStop(1, col + '00');
+          patCtx.beginPath(); patCtx.arc(nx, cy, 22, 0, Math.PI*2);
+          patCtx.fillStyle = g; patCtx.fill();
+        }
+
+        const r = on ? 7.5 : 5.5;
+        patCtx.beginPath(); patCtx.arc(nx, cy, r, 0, Math.PI*2);
+        patCtx.fillStyle = on ? col : col + '50';
+        patCtx.fill();
+
+        if (!narrow) {
+          patCtx.font = `300 ${nSz}px Inter,sans-serif`;
+          patCtx.fillStyle    = on ? col : col + '65';
+          patCtx.textAlign    = 'center';
+          patCtx.textBaseline = 'top';
+          patCtx.fillText(domain.stages[s], nx, cy + r + 4);
+        }
+      }
+    });
+
+    // Bottom legend: "The pattern is the same. Only the vocabulary changes."
+    patCtx.font = `300 italic ${Math.max(8, nSz)}px Cormorant Garamond,serif`;
+    patCtx.fillStyle    = 'rgba(107,124,58,0.45)';
+    patCtx.textAlign    = 'center';
+    patCtx.textBaseline = 'bottom';
+    patCtx.fillText('The pattern is the same. Only the vocabulary changes.', W / 2, H - 2);
+
+    patT++;
+    colFrames++;
+    if (colFrames >= COL_HOLD) { colFrames = 0; activeCol = (activeCol + 1) % 4; }
+
+    requestAnimationFrame(drawPattern);
+  }
+
+  requestAnimationFrame(drawPattern);
+})();
+
+/* ══════════════════════════════════════════
+   ORCHESTRATION CANVAS
+   Conductor hub emits timed pulses.
+   Each pulse triggers surrounding domain
+   nodes — visualizing coordinated rhythm.
+══════════════════════════════════════════ */
+(function(){
+  const canvas = document.getElementById('orch-canvas');
+  if (!canvas) return;
+
+  // Six "instruments" the conductor coordinates
+  const NODES = [
+    { label:'AVIATION',   color:'#c4965a', angle: 270 },
+    { label:'MARINE',     color:'#2a8a8a', angle: 330 },
+    { label:'TECHNOLOGY', color:'#5a9a5a', angle:  30 },
+    { label:'INVESTMENT', color:'#8a7848', angle:  90 },
+    { label:'OPERATIONS', color:'#6b7c3a', angle: 150 },
+    { label:'STRATEGY',   color:'#7a6a9a', angle: 210 },
+  ];
+
+  let oCtx, oDpr;
+  let orchT = 0;
+  let pulses = [];
+  let nodeGlow = NODES.map(() => 0);
+
+  function setupOrch() {
+    oDpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width === 0) return;
+    canvas.width  = rect.width  * oDpr;
+    canvas.height = rect.height * oDpr;
+    oCtx = canvas.getContext('2d');
+    oCtx.scale(oDpr, oDpr);
+  }
+  setupOrch();
+  window.addEventListener('resize', setupOrch);
+
+  function drawOrch() {
+    const W = canvas.clientWidth;
+    const H = canvas.clientHeight;
+    if (!oCtx || W === 0) { requestAnimationFrame(drawOrch); return; }
+
+    oCtx.clearRect(0, 0, W, H);
+
+    const cx = W / 2;
+    const cy = H / 2;
+    const R  = Math.min(W * 0.34, H * 0.38, 138);
+    const lSz = Math.max(7, Math.min(9.5, W / 58));
+
+    // Node positions
+    const pos = NODES.map(n => {
+      const rad = n.angle * Math.PI / 180;
+      return { x: cx + Math.cos(rad) * R, y: cy + Math.sin(rad) * R };
+    });
+
+    // Faint spokes hub → nodes
+    NODES.forEach((n, i) => {
+      oCtx.beginPath();
+      oCtx.moveTo(cx, cy); oCtx.lineTo(pos[i].x, pos[i].y);
+      oCtx.strokeStyle = n.color + '15';
+      oCtx.lineWidth   = 1;
+      oCtx.stroke();
+    });
+
+    // Faint ring connecting all nodes
+    NODES.forEach((n, i) => {
+      const j  = (i + 1) % NODES.length;
+      oCtx.beginPath();
+      oCtx.moveTo(pos[i].x, pos[i].y);
+      oCtx.lineTo(pos[j].x, pos[j].y);
+      oCtx.strokeStyle = 'rgba(107,124,58,0.07)';
+      oCtx.lineWidth   = 0.6;
+      oCtx.stroke();
+    });
+
+    // Pulse rings
+    pulses = pulses.filter(p => p.r <= R + 20);
+    pulses.forEach(p => {
+      p.r += 2.4;
+
+      // Trigger node glow when ring radius matches node distance
+      pos.forEach((np, i) => {
+        const dist = Math.hypot(np.x - cx, np.y - cy);
+        if (Math.abs(p.r - dist) < 5) nodeGlow[i] = 1;
+      });
+
+      const alpha = Math.max(0, 0.5 * (1 - p.r / R));
+      if (alpha > 0.01) {
+        oCtx.beginPath();
+        oCtx.arc(cx, cy, p.r, 0, Math.PI*2);
+        oCtx.strokeStyle = `rgba(196,150,90,${alpha})`;
+        oCtx.lineWidth   = 1.8;
+        oCtx.stroke();
+      }
+    });
+
+    // Spawn pulse on beat (~1.4s at 60fps)
+    if (orchT % 84 === 0) pulses.push({ r: 5 });
+
+    // Domain nodes
+    NODES.forEach((n, i) => {
+      const p = pos[i];
+      const g = nodeGlow[i];
+      nodeGlow[i] = Math.max(0, g - 0.016);
+
+      // Glow halo
+      if (g > 0.02) {
+        const grd = oCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 30);
+        const hexA = Math.round(g * 90).toString(16).padStart(2,'0');
+        grd.addColorStop(0, n.color + hexA);
+        grd.addColorStop(1, n.color + '00');
+        oCtx.beginPath(); oCtx.arc(p.x, p.y, 30, 0, Math.PI*2);
+        oCtx.fillStyle = grd; oCtx.fill();
+      }
+
+      // Node body
+      const nr = 6 + g * 3;
+      oCtx.beginPath(); oCtx.arc(p.x, p.y, nr, 0, Math.PI*2);
+      oCtx.fillStyle = g > 0.04 ? n.color : n.color + '60';
+      oCtx.fill();
+
+      // Label (pushed outward from center)
+      const rad = n.angle * Math.PI / 180;
+      const lx  = p.x + Math.cos(rad) * (nr + 17);
+      const ly  = p.y + Math.sin(rad) * (nr + 17);
+      oCtx.font        = `300 ${lSz}px Inter,sans-serif`;
+      oCtx.fillStyle   = g > 0.04 ? 'rgba(255,255,255,0.88)' : 'rgba(255,255,255,0.28)';
+      oCtx.textAlign   = 'center';
+      oCtx.textBaseline = 'middle';
+      oCtx.fillText(n.label, lx, ly);
+    });
+
+    // Conductor center — amber heartbeat
+    const beat = 0.78 + 0.22 * Math.sin(orchT * 0.055);
+    const halo = oCtx.createRadialGradient(cx, cy, 0, cx, cy, 44 * beat);
+    halo.addColorStop(0, 'rgba(196,150,90,0.32)');
+    halo.addColorStop(1, 'rgba(196,150,90,0)');
+    oCtx.beginPath(); oCtx.arc(cx, cy, 44 * beat, 0, Math.PI*2);
+    oCtx.fillStyle = halo; oCtx.fill();
+
+    oCtx.beginPath(); oCtx.arc(cx, cy, 17, 0, Math.PI*2);
+    oCtx.fillStyle = '#c4965a'; oCtx.fill();
+    oCtx.beginPath(); oCtx.arc(cx, cy, 17, 0, Math.PI*2);
+    oCtx.strokeStyle = 'rgba(196,150,90,0.45)'; oCtx.lineWidth = 2.5; oCtx.stroke();
+
+    oCtx.font        = `600 ${Math.max(9,lSz)}px Inter,sans-serif`;
+    oCtx.fillStyle   = '#0b0f1a';
+    oCtx.textAlign   = 'center';
+    oCtx.textBaseline = 'middle';
+    oCtx.fillText('C', cx, cy + 0.5);
+
+    orchT++;
+    requestAnimationFrame(drawOrch);
+  }
+
+  requestAnimationFrame(drawOrch);
+})();
+</script>
+</body>
+</html>
